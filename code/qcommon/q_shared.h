@@ -1422,4 +1422,18 @@ extern int vresHeight;
 #define LERP( a, b, w ) ( ( a ) * ( 1.0f - ( w ) ) + ( b ) * ( w ) )
 #define LUMA( red, green, blue ) ( 0.296875f * ( red ) + 0.5859375f * ( green ) + 0.109375f * ( blue ) )
 
+#ifdef strncpy
+#undef strncpy
+#endif
+
+// The C89 standard (and later ones), when defining strncpy, states that "If
+// copying takes place between objects that overlap, the behavior is
+// undefined.". Newer implementation of strncpy provided by clang seems to
+// actually enforce that the arrays do not overlap. As the code in this project
+// seems to call strncpy with overlapping character arrays, let's provide an
+// implementation that's fine with that.
+char *custom_strncpy(char *dst, const char *src, size_t n);
+
+#define strncpy custom_strncpy
+
 #endif	// __Q_SHARED_H
