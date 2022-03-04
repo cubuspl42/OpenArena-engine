@@ -71,7 +71,7 @@ NCPU=`sysctl -n hw.ncpu`
 #if [ -d build/release-darwin-${BUILDARCH} ]; then
 #	rm -r build/release-darwin-${BUILDARCH}
 #fi
-(ARCH=${BUILDARCH} CFLAGS=$ARCH_CFLAGS LDFLAGS=$ARCH_LDFLAGS make -j$NCPU) || exit 1;
+(ARCH=${BUILDARCH} CFLAGS=$ARCH_CFLAGS LDFLAGS=$ARCH_LDFLAGS make -j$NCPU debug) || exit 1;
 
 # use the following shell script to build an application bundle
 "./make-macosx-app.sh" release ${BUILDARCH}
