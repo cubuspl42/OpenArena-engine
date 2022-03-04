@@ -10,6 +10,13 @@ This a standard ioquake3 build which they describe [here](http://wiki.ioquake3.o
 It's not an autotools based build.  If you don't have the dependencies, it
 will break in the middle of the build.
 
+You may want to change a few things in Makefile.local.  Other than installing
+the build dependencies, you shouldn't need to do anything else.  By default it
+builds a modular renderer so you need the binary + *.so or *.dll files in the
+same directory to run it.
+
+### Linux
+
 If you are on Ubuntu or Debian, the easiest way to compile this is to install
 the build dependencies for the "ioquake3" package.
 
@@ -21,10 +28,32 @@ $ cd engine
 $ make
 ```
 
-You may want to change a few things in Makefile.local.  Other than installing
-the build dependencies, you shouldn't need to do anything else.  By default it
-builds a modular renderer so you need the binary + *.so or *.dll files in the
-same directory to run it.
+### macOS
+
+If you are on macOS, you can compile the game this way: 
+
+```sh
+brew install sdl libxmp
+git clone git://github.com/OpenArena/engine.git
+cd engine
+./make-macosx.sh x86_64
+```
+
+Although this will compile the executable binary successfully, the app bundle
+generation step (`make-macosx-app.sh`) will fail. For details, see [this issue](https://github.com/OpenArena/engine/issues/69).
+
+At this moment, the only known way of crafting a working `.app` release is
+manually replacing the `openarena.ub` executable in the existing `OpenArena.app`
+bundle with the freshly built `openarena.x86_64` one.
+
+Such bundle will still be unsigned, though. To launch an unsigned `.app` bundle
+on newer macOS systems, you have to `ctrl`-click it and press "Open". Only then,
+the presented dialog will have an option to trust the app, although it's not
+signed. For details, see [this Apple help page](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac).
+
+In my case, the launched app still couldn't find the content (it was complaining
+about `.cfg` files, but it probably couldn't see any game data at all). A fix
+was to move the heavy `baseoa` directory to `OpenArena.app/Contents/MacOS/baseoa`.
 
 ## Development ##
 
