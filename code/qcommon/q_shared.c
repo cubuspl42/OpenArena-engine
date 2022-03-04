@@ -1450,3 +1450,21 @@ char *Com_SkipTokens( char *s, int numTokens, char *sep )
 
 int vresWidth;
 int vresHeight;
+
+// This implementation is taken from:
+// https://android.googlesource.com/platform/bionic/+/ics-mr0/libc/string/strncpy.c
+char *custom_strncpy(char *dst, const char *src, size_t n) {
+	if (n != 0) {
+		char *d = dst;
+		const char *s = src;
+		do {
+			if ((*d++ = *s++) == 0) {
+				/* NUL pad the remaining n-1 bytes */
+				while (--n != 0)
+					*d++ = 0;
+				break;
+			}
+		} while (--n != 0);
+	}
+	return (dst);
+}
