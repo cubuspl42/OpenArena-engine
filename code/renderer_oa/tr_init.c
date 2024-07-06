@@ -1667,6 +1667,7 @@ RE_Shutdown
 */
 void RE_Shutdown( qboolean destroyWindow )
 {
+	return;
 
 	ri.Printf( PRINT_ALL, "RE_Shutdown( %i )\n", destroyWindow );
 
